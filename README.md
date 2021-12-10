@@ -4,7 +4,7 @@
 
 <a href="https://github.com/greenpau/ngx-authp-service/actions/" target="_blank"><img src="https://github.com/greenpau/ngx-authp-service/workflows/build/badge.svg?branch=main"></a>
 
-The service works with [ngx-authp-service](https://github.com/greenpau/ngx-authp-service).
+The service works with [caddy-auth-portal](https://github.com/greenpau/caddy-auth-portal).
 It retrieves user data and, if necessary, redirects users to auth portal
 for authentication.
 
