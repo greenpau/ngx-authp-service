@@ -3,5 +3,47 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-  }
+    "ngx-authp-service": {
+      "projectType": "library",
+      "root": "projects/ngx-authp-service",
+      "sourceRoot": "projects/ngx-authp-service/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "tsConfig": "projects/ngx-authp-service/tsconfig.lib.json",
+            "project": "projects/ngx-authp-service/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/ngx-authp-service/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/ngx-authp-service/src/test.ts",
+            "tsConfig": "projects/ngx-authp-service/tsconfig.spec.json",
+            "karmaConfig": "projects/ngx-authp-service/karma.conf.js"
+          },
+          "configurations": {
+            "ci": {
+              "watch": false,
+              "progress": false,
+              "browsers": "ChromeHeadlessCI"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": ["projects/ngx-authp-service/**/*.ts", "projects/ngx-authp-service/**/*.html"]
+          }
+        }
+      }
+    }
+  },
+  "defaultProject": "ngx-authp-service"
 }
