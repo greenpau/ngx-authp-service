@@ -1,27 +1,47 @@
-# NgxAuthpService
+# NGX Auth Portal Service
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.1.0.
+**Note**: This is work in progress.
 
-## Development server
+<a href="https://github.com/greenpau/ngx-authp-service/actions/" target="_blank"><img src="https://github.com/greenpau/ngx-authp-service/workflows/build/badge.svg?branch=main"></a>
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+The service works with [ngx-authp-service](https://github.com/greenpau/ngx-authp-service).
+It retrieves user data and, if necessary, redirects users to auth portal
+for authentication.
 
-## Code scaffolding
+## Installation
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+```bash
+npm install ngx-authp-service --save
 
-## Build
+# or
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+yarn add ngx-authp-service
+```
 
-## Running unit tests
+## Usage
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Add the auth portal service to your `app.module.ts` as a provider:
 
-## Running end-to-end tests
+```typescript
+import { AuthPortalService } from 'ngx-authp-service';
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+@NgModule({
+  ...
+  providers: [AuthPortalService],
+  ...
+})
 
-## Further help
+export class AppModule {
+}
+```
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+Then, import and inject it into a constructor:
+
+```typescript
+constructor(private authService: AuthPortalService){
+  this.userData = this.authService.whoami();
+}
+```
+
+The `userData` contains the information about the user. This data could be
+used to create a badge (avatar, persona, etc.).
