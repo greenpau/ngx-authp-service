@@ -7,7 +7,7 @@ import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http
   providedIn: 'root',
 })
 export class AuthPortalService {
-  baseUrl: string = 'enter-your-api-url';
+  baseUrl = 'enter-your-api-url';
   headers = new HttpHeaders().set('Content-Type', 'application/json');
 
   constructor(private http: HttpClient) {

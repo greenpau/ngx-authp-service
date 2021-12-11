@@ -61,6 +61,7 @@ used to create a badge (avatar, persona, etc.).
 Format prior to committing:
 
 ```bash
+ng lint
 npx prettier ./projects/**/*.{ts,js,json} --write
 ```
 
