@@ -38,10 +38,28 @@ export class AppModule {
 Then, import and inject it into a constructor:
 
 ```typescript
-constructor(private authService: AuthPortalService){
-  this.userData = this.authService.whoami();
+import { AuthPortalService } from 'ngx-authp-service';
+
+export class AppComponent implements OnInit {
+
+  userPersona$: Observable<UserPersona>;
+
+  constructor(
+    private readonly authpService: AuthPortalService
+  ) {
+    this.userPersona$ = this.authpService.whoami();
+  }
+
 }
 ```
 
 The `userData` contains the information about the user. This data could be
 used to create a badge (avatar, persona, etc.).
+
+## Misc
+
+Format prior to committing:
+
+```bash
+npx prettier ./projects/**/*.{ts,js,json} --write
+```
