@@ -1,4 +1,4 @@
-export interface IPersonaData {
+export interface IUserData {
   id?: string;
   name?: string;
   email?: string;
@@ -6,7 +6,7 @@ export interface IPersonaData {
   avatar?: string;
 }
 
-export class PersonaData implements IPersonaData {
+export class UserData implements IUserData {
   id?: string;
   name?: string;
   email?: string;

@@ -1,39 +1,40 @@
 import { Injectable, Inject, InjectionToken } from '@angular/core';
-import { PersonaData } from './auth-portal-persona';
 import { Observable, throwError, of } from 'rxjs';
-// import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
-import { HttpHeaders, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
+import { AUTHP_CONFIG, AuthPortalConfig } from './auth-portal-config';
+import { UserData } from './user-data';
 
-export interface AuthPortalConfig {
-  baseUrl?: string;
+export const AUTHP_SERVICE = new InjectionToken<AuthPortalService>('AUTHP_SERVICE');
+
+export abstract class IAuthPortalService {
+  abstract whoami(): Observable<UserData>;
 }
-
-export const AUTHP_CONFIG = new InjectionToken<AuthPortalConfig>('AUTHP_CONFIG');
 
 @Injectable({
   providedIn: 'root',
 })
-export class AuthPortalService {
+export class AuthPortalService implements IAuthPortalService {
   headers: HttpHeaders;
-  persona: PersonaData;
-  // http: HttpClient;
+  userData: UserData;
 
-  constructor(@Inject(AUTHP_CONFIG) private readonly config: AuthPortalConfig) {
-    // this.http = new HttpClient();
+  constructor(private http: HttpClient, @Inject(AUTHP_CONFIG) private readonly config: AuthPortalConfig) {
     this.headers = new HttpHeaders().set('Content-Type', 'application/json');
-    this.persona = new PersonaData();
-    this.persona.name = 'Anonymous';
-    this.persona.email = 'anonymous@localhost';
+    this.userData = new UserData();
+    this.userData.name = 'Anonymous';
+    this.userData.email = 'anonymous@localhost';
+      if (this?.config?.baseUrl?.endsWith('/')) {
+        this.config.baseUrl = this.config.baseUrl.slice(0, -1)
+    }
   }
 
   public getConfig(): AuthPortalConfig {
     return this.config;
   }
 
-  public whoami(): Observable<PersonaData> {
-    // const resp = this.http.get(`${this.config.baseUrl}/whoami`);
-    // console.log(resp);
-    return of(this.persona);
+  public whoami(): Observable<UserData> {
+    const resp = this.http.get(`${this.config.baseUrl}/whoami`);
+    console.log(resp);
+    return of(this.userData);
   }
 
   // Handle Errors
@@ -48,3 +49,4 @@ export class AuthPortalService {
     return throwError(msg);
   }
 }
+
