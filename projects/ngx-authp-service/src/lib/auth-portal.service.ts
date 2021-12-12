@@ -15,11 +15,15 @@ export const AUTHP_CONFIG = new InjectionToken<AuthPortalConfig>('AUTHP_CONFIG')
 })
 export class AuthPortalService {
   headers: HttpHeaders;
+  persona: PersonaData;
   // http: HttpClient;
 
   constructor(@Inject(AUTHP_CONFIG) private readonly config: AuthPortalConfig) {
     // this.http = new HttpClient();
     this.headers = new HttpHeaders().set('Content-Type', 'application/json');
+    this.persona = new PersonaData();
+    this.persona.name = 'Anonymous';
+    this.persona.email = 'anonymous@localhost';
   }
 
   public getConfig(): AuthPortalConfig {
@@ -29,10 +33,7 @@ export class AuthPortalService {
   public whoami(): Observable<PersonaData> {
     // const resp = this.http.get(`${this.config.baseUrl}/whoami`);
     // console.log(resp);
-    const persona: PersonaData = {};
-    persona.name = 'Anonymous';
-    persona.email = 'anonymous@localhost';
-    return of(persona);
+    return of(this.persona);
   }
 
   // Handle Errors

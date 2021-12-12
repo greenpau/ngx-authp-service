@@ -62,7 +62,7 @@ Format prior to committing:
 
 ```bash
 ng lint
-npx prettier ./projects/**/*.{ts,js,json} --write
+npm run format:write
 ```
 
 Prior to release, increment version in `projects/ngx-authp-service/package.json`
