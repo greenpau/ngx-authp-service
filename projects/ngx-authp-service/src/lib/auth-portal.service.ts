@@ -1,27 +1,34 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject, InjectionToken } from '@angular/core';
 import { PersonaData } from './auth-portal-persona';
 import { Observable, throwError, of } from 'rxjs';
-import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
+// import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
+import { HttpHeaders, HttpErrorResponse } from '@angular/common/http';
+
+export interface AuthPortalConfig {
+  baseUrl?: string;
+}
+
+export const AUTHP_CONFIG = new InjectionToken<AuthPortalConfig>('AUTHP_CONFIG');
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthPortalService {
-  baseUrl = 'enter-your-api-url';
-  headers = new HttpHeaders().set('Content-Type', 'application/json');
+  headers: HttpHeaders;
+  // http: HttpClient;
 
-  constructor(private http: HttpClient) {
-    this.http = http;
+  constructor(@Inject(AUTHP_CONFIG) private readonly config: AuthPortalConfig) {
+    // this.http = new HttpClient();
+    this.headers = new HttpHeaders().set('Content-Type', 'application/json');
   }
 
-  /* Return base url for the authentication portal */
-  public getBaseURL(): string {
-    return this.baseUrl;
+  public getConfig(): AuthPortalConfig {
+    return this.config;
   }
 
   public whoami(): Observable<PersonaData> {
-    const resp = this.http.get(`${this.baseUrl}/whoami`);
-    console.log(resp);
+    // const resp = this.http.get(`${this.config.baseUrl}/whoami`);
+    // console.log(resp);
     const persona: PersonaData = {};
     persona.name = 'Anonymous';
     persona.email = 'anonymous@localhost';
