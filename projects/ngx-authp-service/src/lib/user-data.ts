@@ -4,6 +4,7 @@ export interface IUserData {
   email?: string;
   roles?: Array<string>;
   avatar?: string;
+  raw?: Object;
 }
 
 export class UserData implements IUserData {
@@ -12,5 +13,29 @@ export class UserData implements IUserData {
   email?: string;
   roles?: Array<string>;
   avatar?: string;
-  constructor() {}
+  raw?: Object;
+  constructor(data: Object = {}) {
+    this.raw = data;
+    for (const [key, value] of Object.entries(data)) {
+      switch (key) {
+        case 'email':
+          this.email = value;
+          break;
+        case 'sub':
+          this.id = value;
+          break;
+        case 'name':
+          this.name = value;
+          break;
+        case 'roles':
+          this.roles = value;
+          break;
+        case 'avatar':
+          this.avatar = value;
+          break;
+        default:
+          break;
+      }
+    }
+  }
 }

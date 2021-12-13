@@ -1,5 +1,6 @@
 import { Injectable, Inject, InjectionToken } from '@angular/core';
 import { Observable, throwError, of } from 'rxjs';
+import { map, tap, catchError } from 'rxjs/operators';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { AUTHP_CONFIG, AuthPortalConfig } from './auth-portal-config';
 import { UserData } from './user-data';
@@ -7,6 +8,7 @@ import { UserData } from './user-data';
 export abstract class IAuthPortalService {
   abstract whoami(): Observable<UserData>;
   abstract getConfig(): AuthPortalConfig;
+  abstract logout(): void;
 }
 
 @Injectable({
@@ -17,10 +19,12 @@ export class AuthPortalService implements IAuthPortalService {
   userData: UserData;
 
   constructor(private http: HttpClient, @Inject(AUTHP_CONFIG) private readonly config: AuthPortalConfig) {
-    this.headers = new HttpHeaders().set('Content-Type', 'application/json');
-    this.userData = new UserData();
-    this.userData.name = 'Anonymous';
-    this.userData.email = 'anonymous@localhost';
+    this.headers = new HttpHeaders({
+      Pragma: 'no-cache',
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*',
+    });
+    this.userData = new UserData({ name: 'Anonymous', email: 'anonymous@localhost' });
     if (this?.config?.baseUrl?.endsWith('/')) {
       this.config.baseUrl = this.config.baseUrl.slice(0, -1);
     }
@@ -31,20 +35,27 @@ export class AuthPortalService implements IAuthPortalService {
   }
 
   public whoami(): Observable<UserData> {
-    const resp = this.http.get(`${this.config.baseUrl}/whoami`);
-    console.log(resp);
-    return of(this.userData);
+    return this.http.get(`${this.config.baseUrl}/whoami`, { headers: this.headers }).pipe(
+      map((response) => {
+        const userData = new UserData(response);
+        this.userData = userData;
+        return userData;
+      }),
+      catchError(this.handleError)
+    );
   }
 
-  // Handle Errors
-  error(resp: HttpErrorResponse) {
+  public logout(): void {
+    console.log('logging out');
+  }
+
+  handleError(resp: HttpErrorResponse) {
     let msg = '';
     if (resp.error instanceof ErrorEvent) {
       msg = resp.error.message;
     } else {
       msg = `Error Code: ${resp.status}\nMessage: ${resp.message}`;
     }
-    console.log(msg);
     return throwError(msg);
   }
 }
