@@ -8,6 +8,7 @@ export const AUTHP_SERVICE = new InjectionToken<AuthPortalService>('AUTHP_SERVIC
 
 export abstract class IAuthPortalService {
   abstract whoami(): Observable<UserData>;
+  abstract getConfig(): AuthPortalConfig;
 }
 
 @Injectable({
@@ -22,8 +23,8 @@ export class AuthPortalService implements IAuthPortalService {
     this.userData = new UserData();
     this.userData.name = 'Anonymous';
     this.userData.email = 'anonymous@localhost';
-      if (this?.config?.baseUrl?.endsWith('/')) {
-        this.config.baseUrl = this.config.baseUrl.slice(0, -1)
+    if (this?.config?.baseUrl?.endsWith('/')) {
+      this.config.baseUrl = this.config.baseUrl.slice(0, -1);
     }
   }
 
@@ -49,4 +50,3 @@ export class AuthPortalService implements IAuthPortalService {
     return throwError(msg);
   }
 }
-

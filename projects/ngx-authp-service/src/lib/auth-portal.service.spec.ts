@@ -39,7 +39,7 @@ describe('AuthPortalService', () => {
 
   it('should have valid config with base url', () => {
     let cfg = service.getConfig();
-      expect(cfg.baseUrl).toEqual('https://auth.myfiosgateway.com:8443');
+    expect(cfg.baseUrl).toEqual('https://auth.myfiosgateway.com:8443');
   });
 
   it('should have anonymous persona at init', () => {
