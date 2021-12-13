@@ -4,8 +4,6 @@ import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http
 import { AUTHP_CONFIG, AuthPortalConfig } from './auth-portal-config';
 import { UserData } from './user-data';
 
-export const AUTHP_SERVICE = new InjectionToken<AuthPortalService>('AUTHP_SERVICE');
-
 export abstract class IAuthPortalService {
   abstract whoami(): Observable<UserData>;
   abstract getConfig(): AuthPortalConfig;
