@@ -20,9 +20,9 @@ export class AuthPortalService implements IAuthPortalService {
 
   constructor(private http: HttpClient, @Inject(AUTHP_CONFIG) private readonly config: AuthPortalConfig) {
     this.headers = new HttpHeaders({
-      Pragma: 'no-cache',
-      'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': '*',
+      pragma: 'no-cache',
+      'content-type': 'application/json',
+      'access-control-allow-origin': '*',
     });
     this.userData = new UserData({ name: 'Anonymous', email: 'anonymous@localhost' });
     if (this?.config?.baseUrl?.endsWith('/')) {
