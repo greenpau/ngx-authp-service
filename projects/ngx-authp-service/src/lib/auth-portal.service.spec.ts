@@ -47,6 +47,15 @@ describe('AuthPortalService', () => {
     expect(cfg.baseUrl).toEqual('https://auth.myfiosgateway.com:8443');
   });
 
+  it('should have default http headers', () => {
+    let headers = service.headers;
+    expect(headers.get('Pragma')).toEqual('no-cache');
+    expect(headers.get('Content-Type')).toEqual('application/json');
+    expect(headers.get('Access-Control-Allow-Origin')).toEqual('*');
+    expect(headers.get('Access-Control-Allow-Methods')).toEqual('GET,HEAD,OPTIONS,POST,PUT');
+    expect(headers.get('Access-Control-Allow-Headers')).toEqual('Origin, Content-Type, Accept');
+  });
+
   it('should have anonymous persona at init', () => {
     let expUserData = new UserData({ name: 'Anonymous', email: 'anonymous@localhost' });
     expect(service.userData).toEqual(expUserData);
