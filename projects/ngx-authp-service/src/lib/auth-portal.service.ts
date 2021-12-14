@@ -39,7 +39,7 @@ export class AuthPortalService implements IAuthPortalService {
   }
 
   public whoami(): Observable<UserData> {
-    return this.http.get(`${this.config.baseUrl}/whoami`, { headers: this.headers }).pipe(
+    return this.http.get(`${this.config.baseUrl}/whoami`, { headers: this.headers, withCredentials: true }).pipe(
       map((response) => {
         const userData = new UserData(response);
         this.userData = userData;
