@@ -23,11 +23,21 @@ yarn add ngx-authp-service
 Add the auth portal service to your `app.module.ts` as a provider:
 
 ```typescript
-import { AuthPortalService } from 'ngx-authp-service';
+import { AUTHP_CONFIG, AuthPortalService, AuthPortalConfig } from 'ngx-authp-service';
+
+const PROD_AUTHP_CONFIG: AuthPortalConfig = {
+  baseUrl: 'https://auth.myfiosgateway.com:8443/',
+};
 
 @NgModule({
   ...
-  providers: [AuthPortalService],
+  providers: [
+    {
+      provide: AUTHP_CONFIG,
+      useValue: PROD_AUTHP_CONFIG,
+    },
+    AuthPortalService
+  ],
   ...
 })
 
@@ -38,23 +48,42 @@ export class AppModule {
 Then, import and inject it into a constructor:
 
 ```typescript
-import { AuthPortalService } from 'ngx-authp-service';
+import { AuthPortalService, UserData } from 'ngx-authp-service';
 
 export class AppComponent implements OnInit {
 
-  userPersona$: Observable<UserPersona>;
+  userData: UserData = {};
 
   constructor(
     private readonly authpService: AuthPortalService
   ) {
-    this.userPersona$ = this.authpService.whoami();
+    this.authpService.whoami().subscribe(
+      (data) => {
+        this.userData = data;
+        console.log(this.userData);
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
   }
-
 }
 ```
 
 The `userData` contains the information about the user. This data could be
-used to create a badge (avatar, persona, etc.).
+used to create a user badge (account, persona, etc.).
+
+The `raw` field contains the raw response from `whoami` API endpoint.
+
+```typescript
+export class UserData implements IUserData {
+  id?: string;
+  name?: string;
+  email?: string;
+  roles?: Array<string>;
+  avatar?: string;
+  raw?: object;
+```
 
 ## Misc
 

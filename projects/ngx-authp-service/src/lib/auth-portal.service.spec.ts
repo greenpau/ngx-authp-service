@@ -83,8 +83,6 @@ describe('AuthPortalService', () => {
     let rawData = { error: true, message: 'Access denied', timestamp: '2021-12-13T16:50:36.20580249Z' };
     service.whoami().subscribe(
       (data) => {
-        //expect(data).toEqual(expUserData);
-        // done();
         fail('received unexpected data');
         console.log(data);
       },
