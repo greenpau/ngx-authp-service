@@ -1,6 +1,4 @@
-# NGX Auth Portal Service
-
-**Note**: This is work in progress.
+# Auth Portal Service for Angular
 
 <a href="https://github.com/greenpau/ngx-authp-service/actions/" target="_blank"><img src="https://github.com/greenpau/ngx-authp-service/workflows/build/badge.svg?branch=main"></a>
 <span class="badge-npmversion"><a href="https://npmjs.org/package/ngx-authp-service" title="View this project on NPM"><img src="https://img.shields.io/npm/v/ngx-authp-service.svg" alt="NPM version" /></a></span>
@@ -84,4 +82,27 @@ export class UserData implements IUserData {
   roles?: Array<string>;
   avatar?: string;
   raw?: object;
+```
+
+## Caddy Configuration
+
+The following Caddyfile configuration allows the Angular app running
+at `https://assetq.myfiosgateway.com:8443` accessing `https://auth.myfiosgateway.com/whoami`
+API endpoint. If the configuration is not present, then default CORS policy
+would prevent the app accessing the auth portal.
+
+```
+auth.myfiosgateway.com {
+    route {
+        header {
+            Access-Control-Allow-Origin "https://assetq.myfiosgateway.com:8443"
+            Access-Control-Allow-Methods "POST, GET, OPTIONS, PUT, DELETE"
+            Access-Control-Allow-Headers "Accept, Content-Type, Content-Length, Accept-Encoding, Authorization"
+            Access-Control-Allow-Credentials true
+        }
+        authp {
+            ...
+        }
+    }
+}
 ```
