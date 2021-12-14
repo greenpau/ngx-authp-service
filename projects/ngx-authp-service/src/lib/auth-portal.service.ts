@@ -19,11 +19,15 @@ export class AuthPortalService implements IAuthPortalService {
   userData: UserData;
 
   constructor(private http: HttpClient, @Inject(AUTHP_CONFIG) private readonly config: AuthPortalConfig) {
+    /* eslint-disable @typescript-eslint/naming-convention */
     this.headers = new HttpHeaders({
-      pragma: 'no-cache',
-      'content-type': 'application/json',
-      'access-control-allow-origin': '*',
+      Pragma: 'no-cache',
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT',
+      'Access-Control-Allow-Headers': 'Origin, Content-Type, Accept',
     });
+    /* eslint-enable @typescript-eslint/naming-convention */
     this.userData = new UserData({ name: 'Anonymous', email: 'anonymous@localhost' });
     if (this?.config?.baseUrl?.endsWith('/')) {
       this.config.baseUrl = this.config.baseUrl.slice(0, -1);

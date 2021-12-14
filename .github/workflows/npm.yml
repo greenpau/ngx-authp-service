@@ -1,7 +1,7 @@
 name: Publish to NPM
 on:
-  # push:
-  #   tags: ["v*"]
+  push:
+    tags: ["v*"]
   workflow_dispatch: {}
 
 jobs:
@@ -17,7 +17,9 @@ jobs:
       - name: Install NPM Dependencies
         run: npm ci
       - name: Build project
-        run: ng build --configuration production --project=ngx-authp-service
+        run: |
+          ng build --configuration production --project=ngx-authp-service
+          cp ./README.md ./dist/ngx-authp-service
       - name: Publish to NPM
         uses: JS-DevTools/npm-publish@v1
         with:
