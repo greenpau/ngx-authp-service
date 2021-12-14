@@ -23,9 +23,9 @@ export class AuthPortalService implements IAuthPortalService {
     this.headers = new HttpHeaders({
       Pragma: 'no-cache',
       'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Origin': `${this.config.baseUrl}`,
       'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT',
-      'Access-Control-Allow-Headers': 'Origin, Content-Type, Accept',
+      'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
     });
     /* eslint-enable @typescript-eslint/naming-convention */
     this.userData = new UserData({ name: 'Anonymous', email: 'anonymous@localhost' });
