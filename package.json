@@ -13,7 +13,7 @@
     "format:write": "npm run format -- --write",
     "format:check": "npm run format -- --check",
     "postinstall": "ngcc --properties es2015 browser module main --first-only --create-ivy-entry-points",
-    "package": "ng build ngx-authp-service --prod && cp ./README.md ./dist/ngx-authp-service && cd dist/ngx-authp-service && npm pack"
+    "package": "ng build ngx-authp-service --configuration production && cp ./README.md ./dist/ngx-authp-service && cd dist/ngx-authp-service && npm pack"
   },
   "private": true,
   "dependencies": {
