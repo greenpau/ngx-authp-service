@@ -12,6 +12,7 @@ npm run format:write
 Prior to release, increment version in `projects/ngx-authp-service/package.json`.
 
 ```bash
+versioned --source projects/ngx-authp-service/package.json --patch
 NPM_PKG_VER=(`cat ./projects/ngx-authp-service/package.json | jq -r .version`)
 git add .
 git commit -m "release v${NPM_PKG_VER}"
