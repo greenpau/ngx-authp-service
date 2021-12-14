@@ -3,6 +3,7 @@
 **Note**: This is work in progress.
 
 <a href="https://github.com/greenpau/ngx-authp-service/actions/" target="_blank"><img src="https://github.com/greenpau/ngx-authp-service/workflows/build/badge.svg?branch=main"></a>
+<span class="badge-npmversion"><a href="https://npmjs.org/package/ngx-authp-service" title="View this project on NPM"><img src="https://img.shields.io/npm/v/ngx-authp-service.svg" alt="NPM version" /></a></span>
 
 The service works with [caddy-auth-portal](https://github.com/greenpau/caddy-auth-portal).
 It retrieves user data and, if necessary, redirects users to auth portal
