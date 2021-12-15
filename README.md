@@ -87,7 +87,7 @@ export class UserData implements IUserData {
 ## Caddy Configuration
 
 The following Caddyfile configuration allows the Angular app running
-at `https://assetq.myfiosgateway.com:8443` accessing `https://auth.myfiosgateway.com/whoami`
+at `https://authdb.myfiosgateway.com:8443` accessing `https://auth.myfiosgateway.com/whoami`
 API endpoint. If the configuration is not present, then default CORS policy
 would prevent the app accessing the auth portal.
 
@@ -95,7 +95,7 @@ would prevent the app accessing the auth portal.
 auth.myfiosgateway.com {
     route {
         header {
-            Access-Control-Allow-Origin "https://assetq.myfiosgateway.com:8443"
+            Access-Control-Allow-Origin "https://authdb.myfiosgateway.com:8443"
             Access-Control-Allow-Methods "POST, GET, OPTIONS, PUT, DELETE"
             Access-Control-Allow-Headers "Accept, Content-Type, Content-Length, Accept-Encoding, Authorization"
             Access-Control-Allow-Credentials true
@@ -104,5 +104,65 @@ auth.myfiosgateway.com {
             ...
         }
     }
+}
+```
+
+Full Caddyfile:
+
+```
+{
+        http_port 8080
+        https_port 8443
+        debug
+}
+
+auth.myfiosgateway.com {
+        tls /home/greenpau/.local/tls/myfiosgateway/server.crt /home/greenpau/.local/tls/myfiosgateway/server.key
+        route {
+                header {
+                        Access-Control-Allow-Origin "https://authdb.myfiosgateway.com:8443"
+                        Access-Control-Allow-Methods "POST, GET, OPTIONS, PUT, DELETE"
+                        Access-Control-Allow-Headers "Accept, Content-Type, Content-Length, Accept-Encoding, Authorization"
+                        Access-Control-Allow-Credentials true
+                }
+                authp {
+                        crypto default token lifetime 3600
+                        crypto key sign-verify a3c6eeee16e4479e9f31786e30b3ebdc
+                        backend local /home/greenpau/.local/caddy/users.json local
+                        cookie domain myfiosgateway.com
+                        ui {
+                                links {
+                                        "AuthDB" https://authdb.myfiosgateway.com:8443/ icon "las la-star"
+                                        "My Identity" "/whoami" icon "las la-user"
+                                }
+                        }
+                        transform user {
+                                match origin local
+                                action add role authp/user
+                        }
+                        transform user {
+                                match origin local
+                                match roles authp/user
+                                ui link "Portal Settings" /settings icon "las la-cog"
+                        }
+                }
+        }
+}
+
+authdb.myfiosgateway.com {
+        tls /home/greenpau/.local/tls/myfiosgateway/server.crt /home/greenpau/.local/tls/myfiosgateway/server.key
+        route {
+                authorize {
+                        primary yes
+                        crypto key verify a3c6eeee16e4479e9f31786e30b3ebdc
+                        set auth url https://auth.myfiosgateway.com:8443/
+                        allow roles authp/admin authp/user
+                        validate bearer header
+                        inject headers with claims
+                }
+                file_server {
+                        root /home/greenpau/angular/app
+                }
+        }
 }
 ```
