@@ -4,6 +4,7 @@ export interface IUserData {
   email?: string;
   roles?: Array<string>;
   avatar?: string;
+  origin?: string;
   raw?: object;
 }
 
@@ -13,6 +14,7 @@ export class UserData implements IUserData {
   email?: string;
   roles?: Array<string>;
   avatar?: string;
+  origin?: string;
   raw?: object;
   constructor(data: object = {}) {
     this.raw = data;
@@ -30,8 +32,11 @@ export class UserData implements IUserData {
         case 'roles':
           this.roles = value;
           break;
-        case 'avatar':
+        case 'picture':
           this.avatar = value;
+          break;
+        case 'origin':
+          this.origin = value;
           break;
         default:
           break;

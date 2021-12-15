@@ -7,6 +7,7 @@ Format prior to committing:
 ```bash
 ng lint
 npm run format:write
+ng test
 ```
 
 Prior to release, increment version in `projects/ngx-authp-service/package.json`.

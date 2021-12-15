@@ -7,6 +7,9 @@ The service works with [caddy-auth-portal](https://github.com/greenpau/caddy-aut
 It retrieves user data and, if necessary, redirects users to auth portal
 for authentication.
 
+See also:
+* [github.com/greenpau/ngx-avatar-persona](https://github.com/greenpau/ngx-avatar-persona)
+
 ## Installation
 
 ```bash
@@ -81,6 +84,7 @@ export class UserData implements IUserData {
   email?: string;
   roles?: Array<string>;
   avatar?: string;
+  origin?: string;
   raw?: object;
 ```
 
