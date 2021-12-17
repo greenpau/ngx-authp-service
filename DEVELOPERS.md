@@ -13,6 +13,7 @@ ng test
 Prior to release, increment version in `projects/ngx-authp-service/package.json`.
 
 ```bash
+cat README.md > projects/ngx-authp-service/README.md
 versioned --source projects/ngx-authp-service/package.json --patch
 NPM_PKG_VER=(`cat ./projects/ngx-authp-service/package.json | jq -r .version`)
 git add .
